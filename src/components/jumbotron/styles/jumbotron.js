@@ -1,8 +1,6 @@
 import styled from "styled-components/macro"
 
-export const Container = styled.div`
-
-`
+export const Container = styled.div``
 
 export const Item = styled.div`
     display: flex;
@@ -11,7 +9,6 @@ export const Item = styled.div`
     color: white;
     overflow: hidden;
 `
-
 
 export const Inner = styled.div`
     display: flex;
@@ -38,11 +35,11 @@ export const Pane = styled.div`
 `
 
 export const Title = styled.h1`
-    font-size: 50px;
+    font-size: 45px;
     line-height: 1.1;
     margin-bottom: 8px;
 
-    @media (max-width:600px){
+    @media (max-width: 600px){
         font-size: 35px;
     }
 `
