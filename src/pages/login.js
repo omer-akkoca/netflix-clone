@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import HeaderContainer from '../containers/header';
 import FooterContainer from '../containers/footer';
 import { Form } from '../components'
 import * as ROUTES from "../constants/routes"
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth"
+import { signInWithEmailAndPassword } from "firebase/auth"
 import { useNavigate } from 'react-router-dom'
+import { FirebaseContext } from '../context/firebaseContext';
 
 const Login = () =>{
 
-    const auth = getAuth()
+    const { auth } = useContext(FirebaseContext)
     const navigate = useNavigate()
 
     const [email, setEmail] = useState("")
@@ -22,7 +23,6 @@ const Login = () =>{
         
         signInWithEmailAndPassword(auth, email, password)
         .then((resp)=>{
-            console.log(resp)
             navigate(ROUTES.BROWSE)
         })
         .catch((error)=>{

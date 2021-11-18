@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import HeaderContainer from '../containers/header';
 import FooterContainer from '../containers/footer';
 import { Form } from '../components'
 import * as ROUTES from "../constants/routes"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import { FirebaseContext } from '../context/firebaseContext';
 
 const Signup = () =>{
 
-    const auth = getAuth()
+    const { auth } = useContext(FirebaseContext)
     const navigate = useNavigate()
 
     const [name, setName] = useState("")
@@ -20,13 +21,15 @@ const Signup = () =>{
 
     const handleSignup = (e) =>{
         e.preventDefault()
-
         createUserWithEmailAndPassword(auth,email,password)
         .then((result)=>{
-            result.user.displayName = name
-            result.user.photoURL = Math.floor(Math.random() * 5) + 1
-            navigate(ROUTES.BROWSE)
-            localStorage.setItem("user",JSON.stringify(result.user))
+            updateProfile(auth.currentUser, {
+                displayName: name, photoURL: Math.floor(Math.random() * 5) + 1
+            }).then(() => {
+                navigate(ROUTES.BROWSE)
+            }).catch((error) => {
+                setError(error.message)
+            })
         })
         .catch((err)=>{
             setName("")

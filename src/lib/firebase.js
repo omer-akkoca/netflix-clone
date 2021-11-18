@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app"
+import { getAuth } from "firebase/auth";
 //import { getFirestore } from "firebase/firestore"
 //import { seedDatabase } from "../seed" //i used this when i seed firestore
 
@@ -11,7 +12,11 @@ const config = {
     appId: "1:873157595170:web:68f7bd22afe4c6a895ba7b"
 }
 
-initializeApp(config)
+const firebase = initializeApp(config)
+
+const auth = getAuth(firebase)
 
 //const firestoreDB = getFirestore() // we used it for seedDatabase
 //seedDatabase(firestoreDB) //it worked for one time
+
+export { auth }
