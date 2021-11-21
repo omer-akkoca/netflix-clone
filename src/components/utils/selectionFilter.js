@@ -1,5 +1,4 @@
 export default function selectionFilter({films, series}) {
-    console.log("selection-filter: ",films)
     return{
         series : [
             { 
