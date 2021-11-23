@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react'
 import ProfileContainer from './profile'
+import FooterContainer from "../containers/footer"
+import logo from "../../logo.svg"
+import * as ROUTES from "../constants/routes"
+import Fuse from "fuse.js"
 import { Loading, Header, Card, Player } from "../components"
 import { useSelector, useDispatch } from "react-redux"
-import * as ROUTES from "../constants/routes"
-import logo from "../../logo.svg"
 import { FirebaseContext } from '../context/firebaseContext'
 import { handleLogout } from "../../redux/actions/auth"
-import FooterContainer from "../containers/footer"
 
 function BrowseContainer({slides}) {
 
@@ -30,6 +31,18 @@ function BrowseContainer({slides}) {
     useEffect(() => {
         setSlideRows(slides[category])
     }, [category,slides])
+
+    useEffect(() => {
+        const fuse = new Fuse(slideRows,{
+            keys: ['data.description','data.title','data.genre']
+        })
+        const result = fuse.search(searchTerm).map(({item}) => item)
+        if (slideRows.length > 0 && searchTerm.length > 3 && result.length > 0) {
+            setSlideRows(result)
+        }else{
+            setSlideRows(slides[category])
+        }
+    }, [searchTerm])
 
     return profile.displayName 
         ?   (
